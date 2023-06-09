@@ -10,13 +10,27 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 import "dotenv/config";
 
-app.use(
-  cors({
-    origin: "https://user-auth-4kb0.onrender.com",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://user-auth-4kb0.onrender.com"
+  );
+
+  // Additional CORS headers if needed
+
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  next();
+});
+
+// app.use(
+//   cors({
+//     origin: "https://user-auth-4kb0.onrender.com",
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
 app.use(express.json());
 
 app.post("/login", jsonParser, login);
